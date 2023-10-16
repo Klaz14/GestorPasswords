@@ -1,5 +1,11 @@
 Gestor de Contraseñas
 
+V 0.1.2
+
+* Añadidas opciones de modificacion de datos y de cierre de aplicacion.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.1
 
 * Se modifico la forma de entrada de datos para poder almacenar mas de un tipo de dato.

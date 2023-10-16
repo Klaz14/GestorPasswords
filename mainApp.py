@@ -21,19 +21,50 @@ def recuperar_perfil():
                 return
         print(f"No se encontró un perfil para {nombre}.")
 
-def main():
+def modificar_perfil():
+    nombre = input("Por favor, introduce tu nombre: ")
+    with open('perfiles.txt', 'r') as archivo:
+        lineas = archivo.readlines()
+
+    encontrado = False
+    with open('perfiles.txt', 'w') as archivo:
+        for linea in lineas:
+            datos = linea.strip().split(',')
+            if datos[0] == nombre:
+                fecha_nacimiento = input("Introduce tu nueva fecha de nacimiento (dd/mm/aaaa): ")
+                contraseña = input("Introduce tu nueva contraseña: ")
+                archivo.write(f"{nombre},{fecha_nacimiento},{contraseña}\n")
+                print(f"Perfil de {nombre} modificado correctamente.")
+                encontrado = True
+            else:
+                archivo.write(linea)
+
+    if not encontrado:
+        print(f"No se encontró un perfil para {nombre}.")
+
+def cerrar_aplicacion():
+    exit()
+
+def menu_principal():
     print("Bienvenido a la aplicación de perfiles.")
     print("1. Guardar perfil")
     print("2. Recuperar perfil")
+    print("3. Modificar perfil")
+    print("4. Cerrar aplicación")
 
-    opcion = input("Por favor, elige una opción (1 o 2): ")
+    opcion = input("Por favor, elige una opción (1, 2, 3 o 4): ")
 
     if opcion == '1':
         guardar_perfil()
     elif opcion == '2':
         recuperar_perfil()
+    elif opcion == '3':
+        modificar_perfil()
+    elif opcion == '4':
+        cerrar_aplicacion()
     else:
-        print("Opción inválida. Por favor, elige 1 o 2.")
+        print("Opción inválida. Por favor, elige 1, 2, 3 o 4.")
 
 if __name__ == '__main__':
-    main()
+    while True:
+        menu_principal()
