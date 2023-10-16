@@ -8,6 +8,7 @@ def guardar_perfil():
     with open('perfiles.txt', 'a') as archivo:
         archivo.write(f"{nombre},{fecha_nacimiento},{contraseña}\n")
     print(f"Perfil de {nombre} guardado correctamente.")
+    print('-'*30)  # Línea divisoria
 
 def recuperar_perfil():
     nombre = input("Por favor, introduce tu nombre: ")
@@ -20,6 +21,7 @@ def recuperar_perfil():
                 print(f"Contraseña: {datos[2]}")
                 return
         print(f"No se encontró un perfil para {nombre}.")
+    print('-'*30)  # Línea divisoria
 
 def modificar_perfil():
     nombre = input("Por favor, introduce tu nombre: ")
@@ -31,8 +33,19 @@ def modificar_perfil():
         for linea in lineas:
             datos = linea.strip().split(',')
             if datos[0] == nombre:
-                fecha_nacimiento = input("Introduce tu nueva fecha de nacimiento (dd/mm/aaaa): ")
-                contraseña = input("Introduce tu nueva contraseña: ")
+                print(f"1. Modificar Fecha de Nacimiento")
+                print(f"2. Modificar Contraseña")
+                opcion = input("Por favor, elige una opción (1 o 2): ")
+                if opcion == '1':
+                    fecha_nacimiento = input("Introduce tu nueva fecha de nacimiento (dd/mm/aaaa): ")
+                    contraseña = datos[2]
+                elif opcion == '2':
+                    fecha_nacimiento = datos[1]
+                    contraseña = input("Introduce tu nueva contraseña: ")
+                else:
+                    print("Opción inválida. No se realizaron cambios.")
+                    archivo.write(linea)
+                    continue
                 archivo.write(f"{nombre},{fecha_nacimiento},{contraseña}\n")
                 print(f"Perfil de {nombre} modificado correctamente.")
                 encontrado = True
@@ -41,6 +54,7 @@ def modificar_perfil():
 
     if not encontrado:
         print(f"No se encontró un perfil para {nombre}.")
+    print('-'*30)  # Línea divisoria
 
 def cerrar_aplicacion():
     exit()
@@ -64,6 +78,7 @@ def menu_principal():
         cerrar_aplicacion()
     else:
         print("Opción inválida. Por favor, elige 1, 2, 3 o 4.")
+    print('-'*30)  # Línea divisoria
 
 if __name__ == '__main__':
     while True:

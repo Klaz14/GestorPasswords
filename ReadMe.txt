@@ -1,5 +1,12 @@
 Gestor de Contraseñas
 
+V 0.1.3
+
+* Añadidas lineas divisorias entre usos de la aplicacion (eliminables cuando se tenga interfaz grafica).
+* En las opciones de modificacion se permite modificar cada dato por separado en lugar de todos juntos.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.2
 
 * Añadidas opciones de modificacion de datos y de cierre de aplicacion.
