@@ -59,7 +59,31 @@ def modificar_perfil():
 def cerrar_aplicacion():
     exit()
 
+def obtener_ultimo_perfil():
+    if os.path.exists('ultimo_perfil.txt'):
+        with open('ultimo_perfil.txt', 'r') as archivo:
+            return archivo.read().strip()
+    return None
+
+def guardar_ultimo_perfil(perfil):
+    with open('ultimo_perfil.txt', 'w') as archivo:
+        archivo.write(perfil)
+
 def menu_principal():
+    ultimo_perfil = obtener_ultimo_perfil()
+
+    if ultimo_perfil:
+        respuesta = input(f"¿Eres {ultimo_perfil}? (s/n): ")
+        if respuesta.lower() == 's':
+            print(f"Bienvenido de nuevo, {ultimo_perfil}!")
+        else:
+            ultimo_perfil = None
+
+    if not ultimo_perfil:
+        nombre = input("Por favor, introduce tu nombre: ")
+        guardar_ultimo_perfil(nombre)
+
+    print('-'*30)
     print("Bienvenido a la aplicación de perfiles.")
     print("1. Guardar perfil")
     print("2. Recuperar perfil")
@@ -78,7 +102,7 @@ def menu_principal():
         cerrar_aplicacion()
     else:
         print("Opción inválida. Por favor, elige 1, 2, 3 o 4.")
-    print('-'*30)  # Línea divisoria
+    print('-'*30)
 
 if __name__ == '__main__':
     while True:

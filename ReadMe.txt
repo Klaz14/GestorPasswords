@@ -1,5 +1,11 @@
 Gestor de Contraseñas
 
+V 0.1.4
+
+* Añadida una funcion que permite recordar el ultimo usuario que utilizo la aplicacion antes de su cierre.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.3
 
 * Añadidas lineas divisorias entre usos de la aplicacion (eliminables cuando se tenga interfaz grafica).
