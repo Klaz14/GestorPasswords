@@ -1,2 +1,1 @@
-Banco Macro,FacuM,qweasd,nada
-MercadoPago,FacuM,dfgdfg,nada
+Banco Macro,FacuM,asdasd,no

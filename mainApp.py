@@ -187,18 +187,24 @@ def gestionar_bloques_datos(perfil):
                     print("5. Modificar todos los datos")
                     print("6. Volver")
 
-                    opcion_modificar_dato = input("Por favor, elige una opción (1 al 6): ")
+                    opcion_modificar_dato = input(
+                        "Por favor, elige una opción (1 al 6): "
+                    )
 
                     if opcion_modificar_dato == "1":
                         nombre_entidad = input("Introduce el nuevo Nombre de Entidad: ")
                         bloque[0] = nombre_entidad
                     elif opcion_modificar_dato == "2":
-                        usuario_entidad = input("Introduce el nuevo Usuario de Entidad: ")
+                        usuario_entidad = input(
+                            "Introduce el nuevo Usuario de Entidad: "
+                        )
                         bloque[1] = usuario_entidad
                     elif opcion_modificar_dato == "3":
                         contraseña_actual = input("Introduce tu contraseña actual: ")
                         if contraseña_actual != bloque[2]:
-                            print("Contraseña incorrecta. Volviendo al gestor de bloques de datos.")
+                            print(
+                                "Contraseña incorrecta. Volviendo al gestor de bloques de datos."
+                            )
                             continue
                         contraseña_nueva = input("Introduce la nueva Contraseña: ")
                         bloque[2] = contraseña_nueva
@@ -206,17 +212,28 @@ def gestionar_bloques_datos(perfil):
                         anotaciones = input("Introduce las nuevas Anotaciones: ")
                         bloque[3] = anotaciones
                     elif opcion_modificar_dato == "5":
-                        print("Por motivos de seguridad, se le pedira su contraseña actual antes de proseguir.")
+                        print(
+                            "Por motivos de seguridad, se le pedira su contraseña actual antes de proseguir."
+                        )
                         contraseña_actual = input("Introduce tu contraseña actual: ")
                         if contraseña_actual != bloque[2]:
-                            print("Contraseña incorrecta. Volviendo al gestor de bloques de datos.")
+                            print(
+                                "Contraseña incorrecta. Volviendo al gestor de bloques de datos."
+                            )
                             continue
                         nombre_entidad = input("Introduce el nuevo Nombre de Entidad: ")
-                        usuario_entidad = input("Introduce el nuevo Usuario de Entidad: ")
+                        usuario_entidad = input(
+                            "Introduce el nuevo Usuario de Entidad: "
+                        )
                         contraseña_nueva = input("Introduce la nueva Contraseña: ")
                         anotaciones = input("Introduce las nuevas Anotaciones: ")
 
-                        bloque = [nombre_entidad, usuario_entidad, contraseña_nueva, anotaciones]
+                        bloque = [
+                            nombre_entidad,
+                            usuario_entidad,
+                            contraseña_nueva,
+                            anotaciones,
+                        ]
                     elif opcion_modificar_dato == "6":
                         continue
 
@@ -236,7 +253,9 @@ def gestionar_bloques_datos(perfil):
                 contraseña = input("Introduce la Contraseña: ")
                 anotaciones = input("Introduce las Anotaciones: ")
 
-                bloques.append([nombre_entidad, usuario_entidad, contraseña, anotaciones])
+                bloques.append(
+                    [nombre_entidad, usuario_entidad, contraseña, anotaciones]
+                )
 
                 with open(f"{perfil}_bloques.txt", "a") as archivo:
                     archivo.write(f"{','.join(bloques[-1])}\n")
@@ -247,9 +266,6 @@ def gestionar_bloques_datos(perfil):
                 break
         else:
             print("Opción inválida. Volviendo al perfil.")
-
-
-
 
 
 def cerrar_aplicacion(perfil):
