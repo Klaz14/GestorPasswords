@@ -40,8 +40,14 @@ def modificar_perfil():
                     fecha_nacimiento = input("Introduce tu nueva fecha de nacimiento (dd/mm/aaaa): ")
                     contraseña = datos[2]
                 elif opcion == '2':
+                    contraseña_anterior = input("Introduce tu contraseña anterior: ")
+                    if contraseña_anterior == datos[2]:
+                        contraseña = input("Introduce tu nueva contraseña: ")
+                    else:
+                        print("¡Contraseña incorrecta! No se realizaron cambios.")
+                        archivo.write(linea)
+                        continue
                     fecha_nacimiento = datos[1]
-                    contraseña = input("Introduce tu nueva contraseña: ")
                 else:
                     print("Opción inválida. No se realizaron cambios.")
                     archivo.write(linea)
@@ -56,7 +62,8 @@ def modificar_perfil():
         print(f"No se encontró un perfil para {nombre}.")
     print('-'*30)  # Línea divisoria
 
-def cerrar_aplicacion():
+def cerrar_aplicacion(perfil):
+    print(f"¡Hasta luego, {perfil}! ¡Espero verte pronto!")
     exit()
 
 def obtener_ultimo_perfil():
@@ -99,7 +106,7 @@ def menu_principal():
     elif opcion == '3':
         modificar_perfil()
     elif opcion == '4':
-        cerrar_aplicacion()
+        cerrar_aplicacion(ultimo_perfil)
     else:
         print("Opción inválida. Por favor, elige 1, 2, 3 o 4.")
     print('-'*30)

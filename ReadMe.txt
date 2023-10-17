@@ -1,5 +1,12 @@
 Gestor de Contraseñas
 
+V 0.1.5
+
+* Añadido saludo de despedida al cerrar la aplicacion.
+* Añadida verificacion de contraseña anterior al momento de cambiar la contraseña.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.4
 
 * Añadida una funcion que permite recordar el ultimo usuario que utilizo la aplicacion antes de su cierre.
