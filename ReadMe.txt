@@ -1,5 +1,13 @@
 Gestor de Contraseñas
 
+V 0.1.7.5
+
+* Eliminada fecha de nacimiento como dato.
+* Modificadas funciones para generar .txt para guardar perfiles y otro .txt para guardar los datos de cada perfil por separado.
+* Añadida funcion para gestionar los datos del .txt que guarda los datos, falta interfaz en consola.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.7.1
 
 * Solucionado un bug que borraba los datos del .txt al momento de querer modificar los mismos desde el submenu modificar el perfil.
