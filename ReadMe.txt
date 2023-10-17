@@ -1,5 +1,16 @@
 Gestor de Contraseñas
 
+V 0.1.7
+
+* Añadida funcion para cambiar entre perfiles.
+* Movida la opcion de crear perfiles desde el menu principal hacia el submenu de cambiar entre perfiles.
+* Ahora, si solo se detecta un perfil guardado, ingresara automaticamente a ese perfil, lo mismo si es la primera vez que se crea un perfil (antes se requeria que ingresara dos veces el nombre del perfil aunque hubiera solamente uno, el recien creado).
+* La verificacion del perfil solo se hace la primera vez que se entra a la aplicacion.
+* Eliminado el uso de un archivo .txt que guardaba el ultimo usuario registrado.
+* Agregadas funciones para regresar al menu desde los submenus de cambiar de perfil y de modificar el perfil.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.6
 
 * Añadida funcion que detecta si existe o no archivo de guardado de perfiles y en caso de no existir crea uno.
