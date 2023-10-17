@@ -45,39 +45,49 @@ def modificar_perfil(ultimo_perfil):
             lineas = archivo.readlines()
 
         encontrado = False
-        with open('perfiles.txt', 'w') as archivo:
-            for linea in lineas:
-                datos = linea.strip().split(',')
-                if datos[0] == nombre:
-                    print(f"1. Modificar Fecha de Nacimiento")
-                    print(f"2. Modificar Contraseña")
-                    print(f"3. Volver al menú principal")
-                    opcion = input("Por favor, elige una opción (1, 2 o 3): ")
+        for i, linea in enumerate(lineas):
+            datos = linea.strip().split(',')
+            if datos[0] == nombre:
+                print(f"1. Modificar Fecha de Nacimiento")
+                print(f"2. Modificar Contraseña")
+                print(f"3. Volver al menú principal")
+                opcion = input("Por favor, elige una opción (1, 2 o 3): ")
 
-                    if opcion == '1':
-                        fecha_nacimiento = input("Introduce tu nueva fecha de nacimiento (dd/mm/aaaa): ")
-                        contraseña = datos[2]
-                    elif opcion == '2':
-                        contraseña_anterior = input("Introduce tu contraseña anterior: ")
-                        if contraseña_anterior == datos[2]:
-                            contraseña = input("Introduce tu nueva contraseña: ")
-                        else:
-                            print("¡Contraseña incorrecta! No se realizaron cambios.")
-                            archivo.write(linea)
-                            continue
-                        fecha_nacimiento = datos[1]
-                    elif opcion == '3':
-                        return
-
-                    archivo.write(f"{nombre},{fecha_nacimiento},{contraseña}\n")
-                    print(f"Perfil de {nombre} modificado correctamente.")
+                if opcion == '1':
+                    fecha_nacimiento = input("Introduce tu nueva fecha de nacimiento (dd/mm/aaaa): ")
+                    contraseña = datos[2]
+                elif opcion == '2':
+                    contraseña_anterior = input("Introduce tu contraseña anterior: ")
+                    if contraseña_anterior == datos[2]:
+                        contraseña = input("Introduce tu nueva contraseña: ")
+                    else:
+                        print("¡Contraseña incorrecta! No se realizaron cambios.")
+                        continue
+                    fecha_nacimiento = datos[1]
+                elif opcion == '3':
                     encontrado = True
+                    break
                 else:
-                    archivo.write(linea)
+                    print("Opción inválida. Por favor, elige 1, 2 o 3.")
+                    continue
+
+                lineas[i] = f"{nombre},{fecha_nacimiento},{contraseña}\n"
+                print(f"Perfil de {nombre} modificado correctamente.")
+                encontrado = True
+                break
 
         if not encontrado:
             print(f"No se encontró un perfil para {nombre}.")
+        else:
+            with open('perfiles.txt', 'w') as archivo:
+                archivo.writelines(lineas)
         print('-'*30)  # Línea divisoria
+
+        if encontrado or opcion == '3':
+            break
+
+
+
 
 
 def seleccionar_perfil():

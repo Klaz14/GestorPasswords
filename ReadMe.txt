@@ -1,5 +1,11 @@
 Gestor de Contraseñas
 
+V 0.1.7.1
+
+* Solucionado un bug que borraba los datos del .txt al momento de querer modificar los mismos desde el submenu modificar el perfil.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.7
 
 * Añadida funcion para cambiar entre perfiles.
