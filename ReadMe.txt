@@ -1,5 +1,14 @@
 Gestor de Contraseñas
 
+V 1.7.8
+
+* Reimplementada la funcion de checkeo de contraseña actual al querer modificar la contraseña del perfil, del dato contraseña o de todos los datos de un bloque de datos.
+* Añadida interfaz para agregar los datos al .txt que guarda los datos.
+* Eliminado selector de perfil al momento de ingresar a los datos guardados del perfil actual.
+* Corregida la funcion para que sea mas amigable el modificar los datos, pudiendo elegir que dato modificar en particular o si modificar todos juntos.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.7.5
 
 * Eliminada fecha de nacimiento como dato.
