@@ -1,5 +1,19 @@
 import os
 
+def cargar_perfiles():
+    if os.path.exists('perfiles.txt'):
+        return
+    else:
+        print("No se encontró ningún archivo de perfiles.")
+        nombre = input("Por favor, introduce tu nombre: ")
+        fecha_nacimiento = input("Introduce tu fecha de nacimiento (dd/mm/aaaa): ")
+        contraseña = input("Crea una contraseña: ")
+
+        with open('perfiles.txt', 'a') as archivo:
+            archivo.write(f"{nombre},{fecha_nacimiento},{contraseña}\n")
+        print(f"Perfil de {nombre} guardado correctamente.")
+        print('-'*30)  # Línea divisoria
+
 def guardar_perfil():
     nombre = input("Por favor, introduce tu nombre: ")
     fecha_nacimiento = input("Introduce tu fecha de nacimiento (dd/mm/aaaa): ")
@@ -90,6 +104,26 @@ def menu_principal():
         nombre = input("Por favor, introduce tu nombre: ")
         guardar_ultimo_perfil(nombre)
 
+        # Verificamos si el nombre existe en los perfiles
+        with open('perfiles.txt', 'r') as archivo:
+            perfiles = [linea.strip().split(',')[0] for linea in archivo]
+        
+        if nombre in perfiles:
+            print(f"Bienvenido, {nombre}!")
+        else:
+            print(f"No se encontró un perfil para {nombre}. ¿Deseas crear uno nuevo?")
+            crear_nuevo = input("Ingresa 's' para crear un nuevo perfil, o cualquier otra tecla para salir: ")
+            if crear_nuevo.lower() == 's':
+                fecha_nacimiento = input("Introduce tu fecha de nacimiento (dd/mm/aaaa): ")
+                contraseña = input("Crea una contraseña: ")
+
+                with open('perfiles.txt', 'a') as archivo:
+                    archivo.write(f"{nombre},{fecha_nacimiento},{contraseña}\n")
+                print(f"Perfil de {nombre} guardado correctamente.")
+                print('-'*30)  # Línea divisoria
+            else:
+                return
+
     print('-'*30)
     print("Bienvenido a la aplicación de perfiles.")
     print("1. Guardar perfil")
@@ -112,5 +146,7 @@ def menu_principal():
     print('-'*30)
 
 if __name__ == '__main__':
+    cargar_perfiles()
+    
     while True:
         menu_principal()

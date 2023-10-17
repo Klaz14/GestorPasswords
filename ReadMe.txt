@@ -1,5 +1,12 @@
 Gestor de Contraseñas
 
+V 0.1.6
+
+* Añadida funcion que detecta si existe o no archivo de guardado de perfiles y en caso de no existir crea uno.
+* Añadida funcion que permite crear un nuevo perfil en caso de no existir el nombre del perfil en el archivo de guardado.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.5
 
 * Añadido saludo de despedida al cerrar la aplicacion.
