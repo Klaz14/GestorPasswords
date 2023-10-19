@@ -1,5 +1,12 @@
 Gestor de Contraseñas
 
+V 0.1.9.5 (correcciones varias y ultimas implementaciones antes de crear la interfaz grafica)
+
+* Agregada funcionalidad para modificar y eliminar anotaciones en particular.
+* Corregido error que hacia que al modificar una anotacion se modificara el token en su lugar.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.9 (correcciones varias y ultimas implementaciones antes de crear la interfaz grafica)
 
 * Agregada funcionalidad para eliminar bloques de datos.

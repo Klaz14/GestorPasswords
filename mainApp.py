@@ -222,7 +222,7 @@ def gestionar_bloques_datos(perfil):
                 print(f"Usuario de Entidad: {bloque[1]}")
                 print(f"Contraseña: {bloque[2]}")
                 print(f"Token: {bloque[3]}")
-                
+
                 anotaciones = bloque[4:]
                 for i, anotacion in enumerate(anotaciones, start=1):
                     print(f"Anotacion {i}: {anotacion}")
@@ -230,9 +230,10 @@ def gestionar_bloques_datos(perfil):
                 print("¿Qué deseas hacer?")
                 print("1. Modificar un dato")
                 print("2. Agregar anotacion")
-                print("3. Volver al gestor de bloques de datos")
+                print("3. Eliminar anotacion")
+                print("4. Volver al gestor de bloques de datos")
 
-                opcion_modificar = input("Por favor, elige una opción (1, 2 o 3): ")
+                opcion_modificar = input("Por favor, elige una opción (1, 2, 3 o 4): ")
 
                 if opcion_modificar == "1":
                     print("¿Qué dato deseas modificar?")
@@ -269,8 +270,29 @@ def gestionar_bloques_datos(perfil):
                         token = input("Introduce el nuevo Token: ")
                         bloque[3] = token
                     elif opcion_modificar_dato == "5":
-                        anotaciones = input("Introduce las nuevas Anotaciones: ")
-                        bloque[3] = anotaciones
+                        print("¿Qué anotación deseas modificar?")
+                        for i, anotacion in enumerate(anotaciones, start=1):
+                            print(f"{i}. {anotacion}")
+                        opcion_modificar_anotacion = input(f"Por favor, elige una anotación para modificar (1 al {len(anotaciones)}): ")
+
+                        if opcion_modificar_anotacion.isnumeric():
+                            opcion_modificar_anotacion = int(opcion_modificar_anotacion)
+                            if 1 <= opcion_modificar_anotacion <= len(anotaciones):
+                                indice_anotacion = opcion_modificar_anotacion - 1
+                                nueva_anotacion = input("Introduce la nueva Anotación: ")
+                                anotaciones[indice_anotacion] = nueva_anotacion
+                                bloque[4:] = anotaciones
+                                bloques[indice] = bloque
+
+                                with open(f"{perfil}_bloques.txt", "w") as archivo:
+                                    for bloque in bloques:
+                                        archivo.write(f"{','.join(bloque)}\n")
+
+                                print(f"Anotación modificada correctamente.")
+                            else:
+                                print("Opción inválida. Por favor, elige una opción válida.")
+                        else:
+                            print("Opción inválida. Por favor, elige una opción numérica.")
                     elif opcion_modificar_dato == "6":
                         print(
                             "Por motivos de seguridad, se le pedira su contraseña actual antes de proseguir."
@@ -318,6 +340,11 @@ def gestionar_bloques_datos(perfil):
                     print(f"Anotación agregada correctamente.")
                     continue
                 elif opcion_modificar == "3":
+                    eliminar_anotacion(bloque)
+                    with open(f"{perfil}_bloques.txt", "w") as archivo:
+                        for bloque in bloques:
+                            archivo.write(f"{','.join(bloque)}\n")
+                elif opcion_modificar == "4":
                     continue
             elif opcion_bloque == len(bloques) + 1:
                 # Agregar nuevo bloque
@@ -372,6 +399,26 @@ def gestionar_bloques_datos(perfil):
         else:
             print("Opción inválida. Volviendo al perfil.")
     encriptar_datos(perfil)
+
+
+def eliminar_anotacion(bloque):
+    print("Anotaciones:")
+    for i, anotacion in enumerate(bloque[4:], start=1):
+        print(f"{i}. {anotacion}")
+
+    opcion_eliminar = input(
+        f"Por favor, elige una anotación para eliminar (1 al {len(bloque)-4}): "
+    )
+
+    if opcion_eliminar.isnumeric():
+        opcion_eliminar = int(opcion_eliminar)
+        if 1 <= opcion_eliminar <= len(bloque) - 4:
+            bloque.pop(opcion_eliminar + 3)
+            print(f"Anotación eliminada correctamente.")
+        else:
+            print("Opción inválida. Por favor, elige una opción válida.")
+    else:
+        print("Opción inválida. Por favor, elige una opción numérica.")
 
 
 def cerrar_aplicacion(perfil):
