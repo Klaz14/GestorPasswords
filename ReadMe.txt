@@ -1,5 +1,12 @@
 Gestor de Contraseñas
 
+V 0.2
+
+* Comenzada la conversion del codigo basado en funciones a OOP.
+* Revisados los metodos, todo funciona como en el codigo original.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.9.9
 
 * Reemplazadas palabras de prueba y eliminados comentarios del codigo.
