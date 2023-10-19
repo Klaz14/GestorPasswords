@@ -1,18 +1,24 @@
 Gestor de Contraseñas
 
-V 0.1.9.8
+V 0.1.9.9
+
+* Reemplazadas palabras de prueba y eliminados comentarios del codigo.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+V 0.1.9.8 (correcciones varias y ultimas implementaciones antes de crear la interfaz)
 
 * Añadido paso de confirmacion antes de realizar una modificacion, creacion o eliminacion de un dato o bloque de datos.
 * Eliminada funcion de modificar todos los datos de un bloque de datos al mismo tiempo.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 V 0.1.9.5 (correcciones varias y ultimas implementaciones antes de crear la interfaz grafica)
 
 * Agregada funcionalidad para modificar y eliminar anotaciones en particular.
 * Corregido error que hacia que al modificar una anotacion se modificara el token en su lugar.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 V 0.1.9 (correcciones varias y ultimas implementaciones antes de crear la interfaz grafica)
 
