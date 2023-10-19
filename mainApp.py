@@ -159,29 +159,33 @@ def modificar_perfil(ultimo_perfil):
                 opcion = input("Por favor, elige una opción (1 o 2): ")
 
                 if opcion == "1":
-                    contraseña_actual = input("Introduce tu contraseña actual: ")
-                    if contraseña_actual != datos[1]:
-                        print("Contraseña incorrecta. Volviendo al menú principal.")
-                        return
+                    print("¿Estás seguro de que deseas modificar tu contraseña??")
+                    print("1. Sí")
+                    print("2. No")
 
-                    contraseña_nueva = input("Introduce tu nueva contraseña: ")
-                elif opcion == "2":
-                    encontrado = True
-                    break
-                else:
-                    print("Opción inválida. Por favor, elige 1 o 2.")
-                    continue
+                    opcion_confirmacion = input("Por favor, elige una opción (1 o 2): ")
 
-                lineas[i] = f"{nombre},{contraseña_nueva}\n"
-                print(f"Perfil de {nombre} modificado correctamente.")
-                encontrado = True
-                break
+                    if opcion_confirmacion == "1":
+                        # Realizar la modificación o eliminación
+                        contraseña_actual = input("Introduce tu contraseña actual: ")
+                        if contraseña_actual != datos[1]:
+                            print("Contraseña incorrecta. Volviendo al menú principal.")
+                            return
 
-        if not encontrado:
-            print(f"No se encontró un perfil para {nombre}.")
-        else:
-            with open("perfiles.txt", "w") as archivo:
-                archivo.writelines(lineas)
+                        contraseña_nueva = input("Introduce tu nueva contraseña: ")
+                        lineas[i] = f"{nombre},{contraseña_nueva}\n"
+                        print(f"Perfil de {nombre} modificado correctamente.")
+                        encontrado = True
+
+                        with open("perfiles.txt", "w") as archivo:
+                            archivo.writelines(lineas)
+                    elif opcion_confirmacion == "2":
+                        encontrado = True
+                        break  # Volver al menú de gestión de bloques de datos
+                    else:
+                        print("Opción inválida. Por favor elige 1 o 2.")
+                        continue
+
         print("-" * 30)  # Línea divisoria
 
         if encontrado or opcion == "2":
@@ -200,6 +204,7 @@ def seleccionar_perfil():
 def gestionar_bloques_datos(perfil):
     desencriptar_datos(perfil)
     while True:
+        os.system("cls" if os.name == "nt" else "clear")
         print(f"Bloques de datos de {perfil}:")
         # Leer y mostrar bloques de datos
         with open(f"{perfil}_bloques.txt", "r") as archivo:
@@ -215,7 +220,6 @@ def gestionar_bloques_datos(perfil):
         if opcion_bloque.isnumeric():
             opcion_bloque = int(opcion_bloque)
             if 1 <= opcion_bloque <= len(bloques):
-                # Modificar bloque existente
                 indice = opcion_bloque - 1
                 bloque = bloques[indice]
                 print(f"Nombre de Entidad: {bloque[0]}")
@@ -242,126 +246,265 @@ def gestionar_bloques_datos(perfil):
                     print("3. Contraseña")
                     print("4. Token")
                     print("5. Anotaciones")
-                    print("6. Modificar todos los datos")
-                    print("7. Volver")
+                    print("6. Volver")
 
                     opcion_modificar_dato = input(
-                        "Por favor, elige una opción (1 al 7): "
+                        "Por favor, elige una opción (1 al 6): "
                     )
 
                     if opcion_modificar_dato == "1":
-                        nombre_entidad = input("Introduce el nuevo Nombre de Entidad: ")
-                        bloque[0] = nombre_entidad
-                    elif opcion_modificar_dato == "2":
-                        usuario_entidad = input(
-                            "Introduce el nuevo Usuario de Entidad: "
-                        )
-                        bloque[1] = usuario_entidad
-                    elif opcion_modificar_dato == "3":
-                        contraseña_actual = input("Introduce tu contraseña actual: ")
-                        if contraseña_actual != bloque[2]:
-                            print(
-                                "Contraseña incorrecta. Volviendo al gestor de bloques de datos."
-                            )
-                            continue
-                        contraseña_nueva = input("Introduce la nueva Contraseña: ")
-                        bloque[2] = contraseña_nueva
-                    elif opcion_modificar_dato == "4":
-                        token = input("Introduce el nuevo Token: ")
-                        bloque[3] = token
-                    elif opcion_modificar_dato == "5":
-                        print("¿Qué anotación deseas modificar?")
-                        for i, anotacion in enumerate(anotaciones, start=1):
-                            print(f"{i}. {anotacion}")
-                        opcion_modificar_anotacion = input(f"Por favor, elige una anotación para modificar (1 al {len(anotaciones)}): ")
-
-                        if opcion_modificar_anotacion.isnumeric():
-                            opcion_modificar_anotacion = int(opcion_modificar_anotacion)
-                            if 1 <= opcion_modificar_anotacion <= len(anotaciones):
-                                indice_anotacion = opcion_modificar_anotacion - 1
-                                nueva_anotacion = input("Introduce la nueva Anotación: ")
-                                anotaciones[indice_anotacion] = nueva_anotacion
-                                bloque[4:] = anotaciones
-                                bloques[indice] = bloque
-
-                                with open(f"{perfil}_bloques.txt", "w") as archivo:
-                                    for bloque in bloques:
-                                        archivo.write(f"{','.join(bloque)}\n")
-
-                                print(f"Anotación modificada correctamente.")
-                            else:
-                                print("Opción inválida. Por favor, elige una opción válida.")
-                        else:
-                            print("Opción inválida. Por favor, elige una opción numérica.")
-                    elif opcion_modificar_dato == "6":
                         print(
-                            "Por motivos de seguridad, se le pedira su contraseña actual antes de proseguir."
+                            "¿Estás seguro de que deseas modificar el Nombre de Entidad?"
                         )
-                        contraseña_actual = input("Introduce tu contraseña actual: ")
-                        if contraseña_actual != bloque[2]:
+                        print("1. Sí")
+                        print("2. No")
+
+                        opcion_confirmacion = input(
+                            "Por favor, elige una opción (1 o 2): "
+                        )
+
+                        if opcion_confirmacion == "1":
+                            # Realizar la modificación o eliminación
+                            nombre_entidad = input(
+                                "Introduce el nuevo Nombre de Entidad: "
+                            )
+                            bloque[0] = nombre_entidad
+                            with open(f"{perfil}_bloques.txt", "w") as archivo:
+                                for bloque in bloques:
+                                    archivo.write(f"{','.join(bloque)}\n")
+
+                        elif opcion_confirmacion == "2":
+                            continue  # Volver al menú de gestión de bloques de datos
+                        else:
                             print(
-                                "Contraseña incorrecta. Volviendo al gestor de bloques de datos."
+                                "Opción inválida. Volviendo al menú de gestión de bloques de datos."
                             )
                             continue
-                        nombre_entidad = input("Introduce el nuevo Nombre de Entidad: ")
-                        usuario_entidad = input(
-                            "Introduce el nuevo Usuario de Entidad: "
+                    elif opcion_modificar_dato == "2":
+                        print(
+                            "¿Estás seguro de que deseas modificar el Usuario de Entidad?"
                         )
-                        contraseña_nueva = input("Introduce la nueva Contraseña: ")
-                        token = input("Introduce el nuevo Token: ")
-                        anotaciones = input("Introduce las nuevas Anotaciones: ")
+                        print("1. Sí")
+                        print("2. No")
 
-                        bloque = [
-                            nombre_entidad,
-                            usuario_entidad,
-                            contraseña_nueva,
-                            token,
-                            anotaciones,
-                        ]
-                    elif opcion_modificar_dato == "7":
+                        opcion_confirmacion = input(
+                            "Por favor, elige una opción (1 o 2): "
+                        )
+
+                        if opcion_confirmacion == "1":
+                            # Realizar la modificación o eliminación
+                            usuario_entidad = input(
+                                "Introduce el nuevo Usuario de Entidad: "
+                            )
+                            bloque[1] = usuario_entidad
+                            with open(f"{perfil}_bloques.txt", "w") as archivo:
+                                for bloque in bloques:
+                                    archivo.write(f"{','.join(bloque)}\n")
+                        elif opcion_confirmacion == "2":
+                            continue  # Volver al menú de gestión de bloques de datos
+                        else:
+                            print(
+                                "Opción inválida. Volviendo al menú de gestión de bloques de datos."
+                            )
+                            continue
+                    elif opcion_modificar_dato == "3":
+                        print("¿Estás seguro de que deseas modificar la Contraseña?")
+                        print("1. Sí")
+                        print("2. No")
+
+                        opcion_confirmacion = input(
+                            "Por favor, elige una opción (1 o 2): "
+                        )
+
+                        if opcion_confirmacion == "1":
+                            # Realizar la modificación o eliminación
+                            contraseña_actual = input(
+                                "Introduce tu contraseña actual: "
+                            )
+                            if contraseña_actual != bloque[2]:
+                                print(
+                                    "Contraseña incorrecta. Volviendo al gestor de bloques de datos."
+                                )
+                                continue
+                            contraseña_nueva = input("Introduce la nueva Contraseña: ")
+                            bloque[2] = contraseña_nueva
+                            with open(f"{perfil}_bloques.txt", "w") as archivo:
+                                for bloque in bloques:
+                                    archivo.write(f"{','.join(bloque)}\n")
+                        elif opcion_confirmacion == "2":
+                            continue  # Volver al menú de gestión de bloques de datos
+                        else:
+                            print(
+                                "Opción inválida. Volviendo al menú de gestión de bloques de datos."
+                            )
+                            continue
+
+                    elif opcion_modificar_dato == "4":
+                        print("¿Estás seguro de que deseas modificar el Token?")
+                        print("1. Sí")
+                        print("2. No")
+
+                        opcion_confirmacion = input(
+                            "Por favor, elige una opción (1 o 2): "
+                        )
+
+                        if opcion_confirmacion == "1":
+                            # Realizar la modificación o eliminación
+                            token = input("Introduce el nuevo Token: ")
+                            bloque[3] = token
+                            with open(f"{perfil}_bloques.txt", "w") as archivo:
+                                for bloque in bloques:
+                                    archivo.write(f"{','.join(bloque)}\n")
+                        elif opcion_confirmacion == "2":
+                            continue  # Volver al menú de gestión de bloques de datos
+                        else:
+                            print(
+                                "Opción inválida. Volviendo al menú de gestión de bloques de datos."
+                            )
+                            continue
+
+                    elif opcion_modificar_dato == "5":
+                        print("¿Estás seguro de que deseas modificar las Anotaciones?")
+                        print("1. Sí")
+                        print("2. No")
+
+                        opcion_confirmacion = input(
+                            "Por favor, elige una opción (1 o 2): "
+                        )
+
+                        if opcion_confirmacion == "1":
+                            # Realizar la modificación o eliminación
+                            print("¿Qué anotación deseas modificar?")
+                            for i, anotacion in enumerate(anotaciones, start=1):
+                                print(f"{i}. {anotacion}")
+                            opcion_modificar_anotacion = input(
+                                f"Por favor, elige una anotación para modificar (1 al {len(anotaciones)}): "
+                            )
+
+                            if opcion_modificar_anotacion.isnumeric():
+                                opcion_modificar_anotacion = int(
+                                    opcion_modificar_anotacion
+                                )
+                                if 1 <= opcion_modificar_anotacion <= len(anotaciones):
+                                    indice_anotacion = opcion_modificar_anotacion - 1
+                                    nueva_anotacion = input(
+                                        "Introduce la nueva Anotación: "
+                                    )
+                                    anotaciones[indice_anotacion] = nueva_anotacion
+                                    bloque[4:] = anotaciones
+                                    bloques[indice] = bloque
+
+                                    with open(f"{perfil}_bloques.txt", "w") as archivo:
+                                        for bloque in bloques:
+                                            archivo.write(f"{','.join(bloque)}\n")
+
+                                    print(f"Anotación modificada correctamente.")
+                                else:
+                                    print(
+                                        "Opción inválida. Por favor, elige una opción válida."
+                                    )
+                            else:
+                                print(
+                                    "Opción inválida. Por favor, elige una opción numérica."
+                                )
+                        elif opcion_confirmacion == "2":
+                            continue  # Volver al menú de gestión de bloques de datos
+                        else:
+                            print(
+                                "Opción inválida. Volviendo al menú de gestión de bloques de datos."
+                            )
+                            continue
+
+                    elif opcion_modificar_dato == "6":
+                        continue
+                elif opcion_modificar == "2":
+                    print("¿Estás seguro de que deseas agregar una Anotacion?")
+                    print("1. Sí")
+                    print("2. No")
+
+                    opcion_confirmacion = input("Por favor, elige una opción (1 o 2): ")
+
+                    if opcion_confirmacion == "1":
+                        # Realizar la modificación o eliminación
+                        nueva_anotacion = input("Introduce la nueva Anotación: ")
+                        bloque.extend([nueva_anotacion])
+                        bloques[indice] = bloque
+
+                        with open(f"{perfil}_bloques.txt", "w") as archivo:
+                            for bloque in bloques:
+                                archivo.write(f"{','.join(bloque)}\n")
+
+                        print(f"Anotación agregada correctamente.")
+                        continue
+                    elif opcion_confirmacion == "2":
+                        continue  # Volver al menú de gestión de bloques de datos
+                    else:
+                        print(
+                            "Opción inválida. Volviendo al menú de gestión de bloques de datos."
+                        )
                         continue
 
-                    bloques[indice] = bloque
-
-                    with open(f"{perfil}_bloques.txt", "w") as archivo:
-                        for bloque in bloques:
-                            archivo.write(f"{','.join(bloque)}\n")
-
-                    print(f"Bloque modificado correctamente.")
-                elif opcion_modificar == "2":
-                    nueva_anotacion = input("Introduce la nueva Anotación: ")
-                    bloque.extend([nueva_anotacion])
-                    bloques[indice] = bloque
-
-                    with open(f"{perfil}_bloques.txt", "w") as archivo:
-                        for bloque in bloques:
-                            archivo.write(f"{','.join(bloque)}\n")
-
-                    print(f"Anotación agregada correctamente.")
-                    continue
                 elif opcion_modificar == "3":
-                    eliminar_anotacion(bloque)
-                    with open(f"{perfil}_bloques.txt", "w") as archivo:
-                        for bloque in bloques:
-                            archivo.write(f"{','.join(bloque)}\n")
+                    print("¿Estás seguro de que deseas eliminar una Anotacion?")
+                    print("1. Sí")
+                    print("2. No")
+
+                    opcion_confirmacion = input("Por favor, elige una opción (1 o 2): ")
+
+                    if opcion_confirmacion == "1":
+                        # Realizar la modificación o eliminación
+                        eliminar_anotacion(bloque)
+                        with open(f"{perfil}_bloques.txt", "w") as archivo:
+                            for bloque in bloques:
+                                archivo.write(f"{','.join(bloque)}\n")
+                    elif opcion_confirmacion == "2":
+                        continue  # Volver al menú de gestión de bloques de datos
+                    else:
+                        print(
+                            "Opción inválida. Volviendo al menú de gestión de bloques de datos."
+                        )
+                        continue
+
                 elif opcion_modificar == "4":
                     continue
             elif opcion_bloque == len(bloques) + 1:
                 # Agregar nuevo bloque
-                nombre_entidad = input("Introduce el Nombre de Entidad: ")
-                usuario_entidad = input("Introduce el Usuario de Entidad: ")
-                contraseña = input("Introduce la Contraseña: ")
-                token = input("Introduce el Token: ")
-                anotaciones = input("Introduce las Anotaciones: ")
+                print("¿Estás seguro de que deseas agregar un nuevo bloque de datos?")
+                print("1. Sí")
+                print("2. No")
 
-                bloques.append(
-                    [nombre_entidad, usuario_entidad, contraseña, token, anotaciones]
-                )
+                opcion_confirmacion = input("Por favor, elige una opción (1 o 2): ")
 
-                with open(f"{perfil}_bloques.txt", "a") as archivo:
-                    archivo.write(f"{','.join(bloques[-1])}\n")
+                if opcion_confirmacion == "1":
+                    # Realizar la modificación o eliminación
+                    nombre_entidad = input("Introduce el Nombre de Entidad: ")
+                    usuario_entidad = input("Introduce el Usuario de Entidad: ")
+                    contraseña = input("Introduce la Contraseña: ")
+                    token = input("Introduce el Token: ")
+                    anotaciones = input("Introduce las Anotaciones: ")
 
-                print(f"Bloque agregado correctamente.")
+                    bloques.append(
+                        [
+                            nombre_entidad,
+                            usuario_entidad,
+                            contraseña,
+                            token,
+                            anotaciones,
+                        ]
+                    )
+
+                    with open(f"{perfil}_bloques.txt", "a") as archivo:
+                        archivo.write(f"{','.join(bloques[-1])}\n")
+
+                    print(f"Bloque agregado correctamente.")
+                elif opcion_confirmacion == "2":
+                    continue  # Volver al menú de gestión de bloques de datos
+                else:
+                    print(
+                        "Opción inválida. Volviendo al menú de gestión de bloques de datos."
+                    )
+                    continue
+
             elif opcion_bloque == len(bloques) + 2:
                 while True:
                     print(f"Selecciona el bloque de datos que deseas eliminar:")
@@ -415,6 +558,7 @@ def eliminar_anotacion(bloque):
         if 1 <= opcion_eliminar <= len(bloque) - 4:
             bloque.pop(opcion_eliminar + 3)
             print(f"Anotación eliminada correctamente.")
+            return
         else:
             print("Opción inválida. Por favor, elige una opción válida.")
     else:
