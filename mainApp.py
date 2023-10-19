@@ -82,7 +82,7 @@ def desencriptar_datos(perfil):
     fernet = Fernet(key)
 
     # opening the encrypted file
-    with open(f"{perfil}_bloques.txt", "rb") as enc_file: 
+    with open(f"{perfil}_bloques.txt", "rb") as enc_file:
         encrypted = enc_file.read()
 
     # Only decrypt if the file is not empty
@@ -92,7 +92,7 @@ def desencriptar_datos(perfil):
 
         # opening the file in write mode and
         # writing the decrypted data
-        with open(f"{perfil}_bloques.txt", "wb") as dec_file: 
+        with open(f"{perfil}_bloques.txt", "wb") as dec_file:
             dec_file.write(decrypted)
 
 
@@ -131,7 +131,15 @@ def recuperar_perfil(ultimo_perfil):
             if datos[0] == nombre:
                 print(f"Nombre: {datos[0]}")
                 print(f"Contraseña: {datos[1]}")
-                return
+                while True:
+                    print("\nMenu de Perfil:")
+                    print("1. Volver al menú principal")
+                    opcion = input("Por favor, elige una opción (1): ")
+
+                    if opcion == "1":
+                        return
+                    else:
+                        print("Opción inválida. Por favor, elige 1.")
         print(f"No se encontró un perfil para {nombre}.")
     print("-" * 30)  # Línea divisoria
 
@@ -188,61 +196,6 @@ def seleccionar_perfil():
     if len(perfiles) == 1:
         return perfiles[0]
 
-    nombre = input("Por favor, introduce tu nombre: ")
-
-    if nombre in perfiles:
-        print(f"Bienvenido, {nombre}!")
-        return nombre
-    else:
-        print(f"No se encontró un perfil para {nombre}. ¿Deseas crear uno nuevo?")
-        crear_nuevo = input(
-            "Ingresa 's' para crear un nuevo perfil, o cualquier otra tecla para salir: "
-        )
-        if crear_nuevo.lower() == "s":
-            contraseña = input("Crea una contraseña: ")
-
-            with open("perfiles.txt", "a") as archivo:
-                archivo.write(f"{nombre},{contraseña}\n")
-            with open(f"{nombre}_bloques.txt", "a") as archivo:
-                pass
-            print(f"Perfil de {nombre} guardado correctamente.")
-            print("-" * 30)  # Línea divisoria
-
-        return nombre
-
-
-def cambiar_perfil():
-    while True:
-        print("Perfiles disponibles:")
-        with open("perfiles.txt", "r") as archivo:
-            perfiles = [linea.strip().split(",")[0] for linea in archivo]
-            for i, perfil in enumerate(perfiles, start=1):
-                print(f"{i}. {perfil}")
-            print(f"{len(perfiles)+1}. Agregar nuevo perfil")
-            print(f"{len(perfiles)+2}. Volver al menú principal")
-
-        opcion = input("Por favor, elige una opción: ")
-
-        if opcion.isnumeric():
-            opcion = int(opcion)
-            if 1 <= opcion <= len(perfiles):
-                return perfiles[opcion - 1]
-            elif opcion == len(perfiles) + 1:
-                nombre = input("Por favor, introduce tu nombre: ")
-                contraseña = input("Crea una contraseña: ")
-
-                with open("perfiles.txt", "a") as archivo:
-                    archivo.write(f"{nombre},{contraseña}\n")
-                with open(f"{nombre}_bloques.txt", "a") as archivo:
-                    pass
-                print(f"Perfil de {nombre} guardado correctamente.")
-                print("-" * 30)  # Línea divisoria
-                return nombre
-            elif opcion == len(perfiles) + 2:
-                return None
-
-        print("Opción inválida. Volviendo al menú principal.")
-
 
 def gestionar_bloques_datos(perfil):
     desencriptar_datos(perfil)
@@ -254,9 +207,10 @@ def gestionar_bloques_datos(perfil):
             for i, bloque in enumerate(bloques, start=1):
                 print(f"{i}. {bloque[0]} - {bloque[1]}")
             print(f"{len(bloques)+1}. Agregar nuevo bloque")
-            print(f"{len(bloques)+2}. Volver al perfil")
+            print(f"{len(bloques)+2}. Eliminar bloque")
+            print(f"{len(bloques)+3}. Volver al perfil")
 
-        opcion_bloque = input(f"Por favor, elige una opción (1 al {len(bloques)+2}): ")
+        opcion_bloque = input(f"Por favor, elige una opción (1 al {len(bloques)+3}): ")
 
         if opcion_bloque.isnumeric():
             opcion_bloque = int(opcion_bloque)
@@ -267,25 +221,31 @@ def gestionar_bloques_datos(perfil):
                 print(f"Nombre de Entidad: {bloque[0]}")
                 print(f"Usuario de Entidad: {bloque[1]}")
                 print(f"Contraseña: {bloque[2]}")
-                print(f"Anotaciones: {bloque[3]}")
+                print(f"Token: {bloque[3]}")
+                
+                anotaciones = bloque[4:]
+                for i, anotacion in enumerate(anotaciones, start=1):
+                    print(f"Anotacion {i}: {anotacion}")
 
                 print("¿Qué deseas hacer?")
                 print("1. Modificar un dato")
-                print("2. Volver al gestor de bloques de datos")
+                print("2. Agregar anotacion")
+                print("3. Volver al gestor de bloques de datos")
 
-                opcion_modificar = input("Por favor, elige una opción (1 o 2): ")
+                opcion_modificar = input("Por favor, elige una opción (1, 2 o 3): ")
 
                 if opcion_modificar == "1":
                     print("¿Qué dato deseas modificar?")
                     print("1. Nombre de Entidad")
                     print("2. Usuario de Entidad")
                     print("3. Contraseña")
-                    print("4. Anotaciones")
-                    print("5. Modificar todos los datos")
-                    print("6. Volver")
+                    print("4. Token")
+                    print("5. Anotaciones")
+                    print("6. Modificar todos los datos")
+                    print("7. Volver")
 
                     opcion_modificar_dato = input(
-                        "Por favor, elige una opción (1 al 6): "
+                        "Por favor, elige una opción (1 al 7): "
                     )
 
                     if opcion_modificar_dato == "1":
@@ -306,9 +266,12 @@ def gestionar_bloques_datos(perfil):
                         contraseña_nueva = input("Introduce la nueva Contraseña: ")
                         bloque[2] = contraseña_nueva
                     elif opcion_modificar_dato == "4":
+                        token = input("Introduce el nuevo Token: ")
+                        bloque[3] = token
+                    elif opcion_modificar_dato == "5":
                         anotaciones = input("Introduce las nuevas Anotaciones: ")
                         bloque[3] = anotaciones
-                    elif opcion_modificar_dato == "5":
+                    elif opcion_modificar_dato == "6":
                         print(
                             "Por motivos de seguridad, se le pedira su contraseña actual antes de proseguir."
                         )
@@ -323,15 +286,17 @@ def gestionar_bloques_datos(perfil):
                             "Introduce el nuevo Usuario de Entidad: "
                         )
                         contraseña_nueva = input("Introduce la nueva Contraseña: ")
+                        token = input("Introduce el nuevo Token: ")
                         anotaciones = input("Introduce las nuevas Anotaciones: ")
 
                         bloque = [
                             nombre_entidad,
                             usuario_entidad,
                             contraseña_nueva,
+                            token,
                             anotaciones,
                         ]
-                    elif opcion_modificar_dato == "6":
+                    elif opcion_modificar_dato == "7":
                         continue
 
                     bloques[indice] = bloque
@@ -342,16 +307,28 @@ def gestionar_bloques_datos(perfil):
 
                     print(f"Bloque modificado correctamente.")
                 elif opcion_modificar == "2":
+                    nueva_anotacion = input("Introduce la nueva Anotación: ")
+                    bloque.extend([nueva_anotacion])
+                    bloques[indice] = bloque
+
+                    with open(f"{perfil}_bloques.txt", "w") as archivo:
+                        for bloque in bloques:
+                            archivo.write(f"{','.join(bloque)}\n")
+
+                    print(f"Anotación agregada correctamente.")
+                    continue
+                elif opcion_modificar == "3":
                     continue
             elif opcion_bloque == len(bloques) + 1:
                 # Agregar nuevo bloque
                 nombre_entidad = input("Introduce el Nombre de Entidad: ")
                 usuario_entidad = input("Introduce el Usuario de Entidad: ")
                 contraseña = input("Introduce la Contraseña: ")
+                token = input("Introduce el Token: ")
                 anotaciones = input("Introduce las Anotaciones: ")
 
                 bloques.append(
-                    [nombre_entidad, usuario_entidad, contraseña, anotaciones]
+                    [nombre_entidad, usuario_entidad, contraseña, token, anotaciones]
                 )
 
                 with open(f"{perfil}_bloques.txt", "a") as archivo:
@@ -359,6 +336,37 @@ def gestionar_bloques_datos(perfil):
 
                 print(f"Bloque agregado correctamente.")
             elif opcion_bloque == len(bloques) + 2:
+                while True:
+                    print(f"Selecciona el bloque de datos que deseas eliminar:")
+                    for i, bloque in enumerate(bloques, start=1):
+                        print(f"{i}. {bloque[0]} - {bloque[1]}")
+                    print(f"{len(bloques)+1}. Volver al menú anterior")
+
+                    opcion_eliminar = input(
+                        f"Por favor, elige una opción (1 al {len(bloques)+1}): "
+                    )
+
+                    if opcion_eliminar.isnumeric():
+                        opcion_eliminar = int(opcion_eliminar)
+                        if 1 <= opcion_eliminar <= len(bloques):
+                            indice = opcion_eliminar - 1
+                            bloque_eliminado = bloques.pop(indice)
+                            with open(f"{perfil}_bloques.txt", "w") as archivo:
+                                for bloque in bloques:
+                                    archivo.write(f"{','.join(bloque)}\n")
+                            print(
+                                f"Bloque {bloque_eliminado[0]} - {bloque_eliminado[1]} eliminado correctamente."
+                            )
+                            break
+                        elif opcion_eliminar == len(bloques) + 1:
+                            break
+                        else:
+                            print(
+                                "Opción inválida. Por favor, elige una opción válida."
+                            )
+                    else:
+                        print("Opción inválida. Por favor, elige una opción numérica.")
+            elif opcion_bloque == len(bloques) + 3:
                 # Volver al perfil
                 break
         else:
@@ -372,19 +380,8 @@ def cerrar_aplicacion(perfil):
     exit()
 
 
-def guardar_ultimo_perfil(perfil):
-    with open("ultimo_perfil.txt", "w") as archivo:
-        archivo.write(perfil)
-
-
-def obtener_ultimo_perfil():
-    if os.path.exists("ultimo_perfil.txt"):
-        with open("ultimo_perfil.txt", "r") as archivo:
-            return archivo.read().strip()
-    return None
-
-
 def menu_principal(perfil):
+    os.system("cls" if os.name == "nt" else "clear")
     print("-" * 30)
     print(f"Bienvenido a la aplicación de perfiles, {perfil}!")
 
@@ -392,15 +389,14 @@ def menu_principal(perfil):
         print(f"1. Gestionar bloques de datos")
         print(f"2. Recuperar perfil")
         print(f"3. Modificar perfil")
-        print(f"4. Cambiar perfil")
-        print(f"5. Cerrar aplicación")
+        print(f"4. Cerrar aplicación")
     else:
         print(f"1. Guardar perfil")
         print(f"2. Recuperar perfil")
         print(f"3. Modificar perfil")
         print(f"4. Cerrar aplicación")
 
-    opcion = input("Por favor, elige una opción (1, 2, 3, 4 o 5): ")
+    opcion = input("Por favor, elige una opción (1, 2, 3 o 4): ")
 
     if perfil and opcion == "1":
         gestionar_bloques_datos(perfil)
@@ -409,10 +405,6 @@ def menu_principal(perfil):
     elif perfil and opcion == "3":
         modificar_perfil(perfil)
     elif perfil and opcion == "4":
-        nuevo_perfil = cambiar_perfil()
-        if nuevo_perfil:
-            return nuevo_perfil
-    elif perfil and opcion == "5":
         cerrar_aplicacion(perfil)
     elif not perfil and opcion == "1":
         guardar_perfil()
@@ -423,7 +415,7 @@ def menu_principal(perfil):
     elif not perfil and opcion == "4":
         cerrar_aplicacion(perfil)
     else:
-        print("Opción inválida. Por favor, elige 1, 2, 3, 4 o 5.")
+        print("Opción inválida. Por favor, elige 1, 2, 3 o 4.")
     return perfil
 
 

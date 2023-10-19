@@ -1,5 +1,15 @@
 Gestor de Contraseñas
 
+V 0.1.9 (correcciones varias y ultimas implementaciones antes de crear la interfaz grafica)
+
+* Agregada funcionalidad para eliminar bloques de datos.
+* Eliminada opcion de multiples perfiles, en pos de mayor seguridad.
+* Modificadas funciones varias y eliminadas funciones obsoletas.
+* Agregado dato "Token" a los datos de los bloques de datos.
+* Agregada funcionalidad para poder escribir mas de una anotacion por bloque de dato.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.1.8
 
 * Implementado un encriptador de archivos, tanto para el .txt de perfiles como para el .txt que guarda los bloques de datos.
