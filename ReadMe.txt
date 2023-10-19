@@ -1,6 +1,13 @@
 Gestor de Contraseñas
 
-V 1.7.8
+V 0.1.8
+
+* Implementado un encriptador de archivos, tanto para el .txt de perfiles como para el .txt que guarda los bloques de datos.
+* Con la implementacion del encriptador se necesita salir de la aplicacion siempre primero con la opcion de salir del menu, dado que sino no se encriptan los perfiles y hay problemas al reingresar, esto se solucionara al crear la interfaz grafica.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+V 0.1.7.8
 
 * Reimplementada la funcion de checkeo de contraseña actual al querer modificar la contraseña del perfil, del dato contraseña o de todos los datos de un bloque de datos.
 * Añadida interfaz para agregar los datos al .txt que guarda los datos.

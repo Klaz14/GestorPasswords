@@ -1,8 +1,104 @@
 import os
+from cryptography.fernet import Fernet
+
+
+def generar_key():
+    if not os.path.exists("filekey.key"):
+        key = Fernet.generate_key()
+        # string the key in a file
+        with open("filekey.key", "wb") as filekey:
+            filekey.write(key)
+
+
+def encriptar_perfil():
+    # opening the key
+    with open("filekey.key", "rb") as filekey:
+        key = filekey.read()
+
+    # using the generated key
+    fernet = Fernet(key)
+
+    # opening the original file to encrypt
+    with open("perfiles.txt", "rb") as file:
+        original = file.read()
+
+    # encrypting the file
+    encrypted = fernet.encrypt(original)
+
+    # opening the file in write mode and
+    # writing the encrypted data
+    with open("perfiles.txt", "wb") as encrypted_file:
+        encrypted_file.write(encrypted)
+
+
+def desencriptar_perfil():
+    # opening the key
+    with open("filekey.key", "rb") as filekey:
+        key = filekey.read()
+
+    # using the generated key
+    fernet = Fernet(key)
+
+    # opening the encrypted file
+    with open("perfiles.txt", "rb") as enc_file:
+        encrypted = enc_file.read()
+
+    # decrypting the file
+    decrypted = fernet.decrypt(encrypted)
+
+    # opening the file in write mode and
+    # writing the decrypted data
+    with open("perfiles.txt", "wb") as dec_file:
+        dec_file.write(decrypted)
+
+
+def encriptar_datos(perfil):
+    # opening the key
+    with open("filekey.key", "rb") as filekey:
+        key = filekey.read()
+
+    # using the generated key
+    fernet = Fernet(key)
+
+    # opening the original file to encrypt
+    with open(f"{perfil}_bloques.txt", "rb") as file:
+        original = file.read()
+
+    # encrypting the file
+    encrypted = fernet.encrypt(original)
+
+    # opening the file in write mode and
+    # writing the encrypted data
+    with open(f"{perfil}_bloques.txt", "wb") as encrypted_file:
+        encrypted_file.write(encrypted)
+
+
+def desencriptar_datos(perfil):
+    # opening the key
+    with open("filekey.key", "rb") as filekey:
+        key = filekey.read()
+
+    # using the generated key
+    fernet = Fernet(key)
+
+    # opening the encrypted file
+    with open(f"{perfil}_bloques.txt", "rb") as enc_file: 
+        encrypted = enc_file.read()
+
+    # Only decrypt if the file is not empty
+    if encrypted:
+        # decrypting the file
+        decrypted = fernet.decrypt(encrypted)
+
+        # opening the file in write mode and
+        # writing the decrypted data
+        with open(f"{perfil}_bloques.txt", "wb") as dec_file: 
+            dec_file.write(decrypted)
 
 
 def cargar_perfiles():
     if os.path.exists("perfiles.txt"):
+        desencriptar_perfil()
         return
     else:
         print("No se encontró ningún archivo de perfiles.")
@@ -149,6 +245,7 @@ def cambiar_perfil():
 
 
 def gestionar_bloques_datos(perfil):
+    desencriptar_datos(perfil)
     while True:
         print(f"Bloques de datos de {perfil}:")
         # Leer y mostrar bloques de datos
@@ -266,10 +363,12 @@ def gestionar_bloques_datos(perfil):
                 break
         else:
             print("Opción inválida. Volviendo al perfil.")
+    encriptar_datos(perfil)
 
 
 def cerrar_aplicacion(perfil):
     print(f"¡Hasta luego, {perfil}! ¡Espero verte pronto!")
+    encriptar_perfil()
     exit()
 
 
@@ -329,6 +428,7 @@ def menu_principal(perfil):
 
 
 if __name__ == "__main__":
+    generar_key()
     cargar_perfiles()
     perfil = seleccionar_perfil()
 
