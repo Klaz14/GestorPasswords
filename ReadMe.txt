@@ -1,5 +1,13 @@
 Gestor de Contraseñas
 
+V 0.2.1
+
+* Empezado a respetarse los principios SOLID.
+* Separada la clase GestorContraseñas en GestorCifrado, GestorPerfiles, GestorTarjetas y MenuGestor.
+* Revisados y reemplazados los metodos correspondientes para el funcionamiento correcto de la aplicacion.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 V 0.2
 
 * Comenzada la conversion del codigo basado en funciones a OOP.

@@ -2,7 +2,7 @@ import os
 from cryptography.fernet import Fernet
 
 
-class GestorContraseñas:
+class GestorCifrado:
     @staticmethod
     def generar_key():
         if not os.path.exists("filekey.key"):
@@ -10,7 +10,7 @@ class GestorContraseñas:
 
             with open("filekey.key", "wb") as filekey:
                 filekey.write(key)
-    
+
     @staticmethod
     def encriptar_perfil():
         with open("filekey.key", "rb") as filekey:
@@ -72,10 +72,12 @@ class GestorContraseñas:
             with open(f"{perfil}_bloques.txt", "wb") as dec_file:
                 dec_file.write(decrypted)
 
+
+class GestorPerfiles:
     @staticmethod
     def cargar_perfiles():
         if os.path.exists("perfiles.txt"):
-            GestorContraseñas.desencriptar_perfil()
+            GestorCifrado.desencriptar_perfil()
             return
         else:
             print("No se encontró ningún perfil.")
@@ -178,9 +180,11 @@ class GestorContraseñas:
         if len(perfiles) == 1:
             return perfiles[0]
 
+
+class GestorTarjetas:
     @staticmethod
     def gestionar_bloques_datos(perfil):
-        GestorContraseñas.desencriptar_datos(perfil)
+        GestorCifrado.desencriptar_datos(perfil)
 
         while True:
             os.system("cls" if os.name == "nt" else "clear")
@@ -476,7 +480,7 @@ class GestorContraseñas:
                         )
 
                         if opcion_confirmacion == "1":
-                            GestorContraseñas.eliminar_anotacion(bloque)
+                            GestorTarjetas.eliminar_anotacion(bloque)
 
                             with open(f"{perfil}_bloques.txt", "w") as archivo:
                                 for bloque in bloques:
@@ -580,7 +584,7 @@ class GestorContraseñas:
                 else:
                     print("Opción inválida. Volviendo al perfil.")
 
-        GestorContraseñas.encriptar_datos(perfil)
+        GestorCifrado.encriptar_datos(perfil)
 
     @staticmethod
     def eliminar_anotacion(bloque):
@@ -605,12 +609,8 @@ class GestorContraseñas:
         else:
             print("Opción inválida. Por favor, elige una opción numérica.")
 
-    @staticmethod
-    def cerrar_aplicacion(perfil):
-        print(f"¡Hasta luego, {perfil}! ¡Espero verte pronto!")
-        GestorContraseñas.encriptar_perfil()
-        exit()
 
+class MenuGestor:
     @staticmethod
     def menu_principal(perfil):
         os.system("cls" if os.name == "nt" else "clear")
@@ -626,28 +626,34 @@ class GestorContraseñas:
         opcion = input("Por favor, elige una opción (1 a 4): ")
 
         if perfil and opcion == "1":
-            GestorContraseñas.gestionar_bloques_datos(perfil)
+            GestorTarjetas.gestionar_bloques_datos(perfil)
 
         elif perfil and opcion == "2":
-            GestorContraseñas.recuperar_perfil(perfil)
+            GestorPerfiles.recuperar_perfil(perfil)
 
         elif perfil and opcion == "3":
-            GestorContraseñas.modificar_perfil(perfil)
+            GestorPerfiles.modificar_perfil(perfil)
 
         elif perfil and opcion == "4":
-            GestorContraseñas.cerrar_aplicacion(perfil)
+            MenuGestor.cerrar_aplicacion(perfil)
 
         else:
             print("Opción inválida. Por favor, elige 1 a 4.")
 
         return perfil
 
+    @staticmethod
+    def cerrar_aplicacion(perfil):
+        print(f"¡Hasta luego, {perfil}! ¡Espero verte pronto!")
+        GestorCifrado.encriptar_perfil()
+        exit()
+
 
 if __name__ == "__main__":
-    GestorContraseñas.generar_key()
-    GestorContraseñas.cargar_perfiles()
+    GestorCifrado.generar_key()
+    GestorPerfiles.cargar_perfiles()
 
-    perfil = GestorContraseñas.seleccionar_perfil()
+    perfil = GestorPerfiles.seleccionar_perfil()
 
     while True:
-        perfil = GestorContraseñas.menu_principal(perfil)
+        perfil = MenuGestor.menu_principal(perfil)
